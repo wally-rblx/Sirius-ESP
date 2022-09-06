@@ -360,9 +360,9 @@ function espLibrary:AddObjectEsp(object, defaultOptions)
     end
 
     options.enabled = checkType('boolean', options.enabled, true)
-    options.limitDistance = checkType('boolean', options.limitDistance, true)
-    options.maxDistance = checkType('boolean', options.maxDistance, true) 
-    options.visibleOnly = checkType('boolean', options.visibleOnly, true)
+    options.limitDistance = checkType('boolean', options.limitDistance, false)
+    options.maxDistance = checkType('boolean', options.maxDistance, false) 
+    options.visibleOnly = checkType('boolean', options.visibleOnly, false)
     options.color = checkType('Color3', options.color, Color3.new(1, 1, 1))
     options.transparency = checkType('number', options.transparency, 1)
     options.text = checkType('string', options.text, object.Name)
