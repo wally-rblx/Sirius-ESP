@@ -1,5 +1,6 @@
 --[[
     made by siper#9938 and mickey#5612
+    forked by wally-rblx
 ]]
 
 -- main module
@@ -351,15 +352,22 @@ function espLibrary:AddObjectEsp(object, defaultOptions)
 
     local options = defaultOptions or {};
 
-    options.enabled = options.enabled or true;
-    options.limitDistance = options.limitDistance or false;
-    options.maxDistance = options.maxDistance or false;
-    options.visibleOnly = options.visibleOnly or false;
-    options.color = options.color or color3New(1, 1, 1);
-    options.transparency = options.transparency or 1;
-    options.text = options.text or object.Name;
-    options.font = options.font or 2;
-    options.fontSize = options.fontSize or 13;
+    local function checkType(expected, value, default)
+        if typeof(value) == expected then
+            return value
+        end
+        return default
+    end
+
+    options.enabled = checkType('boolean', options.enabled, true)
+    options.limitDistance = checkType('boolean', options.limitDistance, true)
+    options.maxDistance = checkType('boolean', options.maxDistance, true) 
+    options.visibleOnly = checkType('boolean', options.visibleOnly, true)
+    options.color = checkType('Color3', options.color, Color3.new(1, 1, 1))
+    options.transparency = checkType('number', options.transparency, 1)
+    options.text = checkType('string', options.text, object.Name)
+    options.font = checkType('number', options.font, 2)
+    options.fontSize = checkType('number', options.fontSize, 13)
 
     self.addObject(object, options);
 
@@ -600,11 +608,11 @@ function espLibrary:Load(renderValue)
             local screenPosition, onScreen = worldToViewportPoint(partPosition);
             local canShow = cache.options.enabled and onScreen;
 
-            if (self.options.limitDistance and distance > self.options.maxDistance) then
+            if (cache.options.limitDistance and distance > cache.options.maxDistance) then
                 canShow = false;
             end
 
-            if (self.options.visibleOnly and not self.visibleCheck(object, partPosition)) then
+            if (cache.options.visibleOnly and not self.visibleCheck(object, partPosition)) then
                 canShow = false;
             end
 
